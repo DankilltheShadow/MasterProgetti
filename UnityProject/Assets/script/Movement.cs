@@ -1,22 +1,27 @@
 ﻿using UnityEngine;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 
 public class Movement : MonoBehaviour 
 {
+    public event Action<float> OnPositionReached;
+
+    public delegate void MovementEvent(float fAdvencedTime);
+    public event MovementEvent OnOtherPositionReached;
 	private void Start() 
 	{
-		m_vDirection = mk_vEndPosition - mk_vStartPosition;
-		m_fTotalTime = m_vDirection.magnitude / mk_fSpeed;
+        m_vDirection = mk_vEndPosition - mk_vStartPosition;
+        m_fTotalTime = m_vDirection.magnitude / mk_fSpeed;
 
-		m_vDirection.Normalize();
+        m_vDirection.Normalize();
 
-		transform.position = mk_vStartPosition;
+        transform.position = mk_vStartPosition;
 	}
 	
-	private void Update() 
+	private void Update()
 	{
-		m_fElapsedTime += Time.deltaTime;
+        m_fElapsedTime += Time.deltaTime;
 
 		if(m_fElapsedTime < m_fTotalTime)
 		{
@@ -28,11 +33,22 @@ public class Movement : MonoBehaviour
 
 			m_fElapsedTime -= m_fTotalTime;
 
-			m_bForward = !m_bForward;
-			m_vDirection = -m_vDirection;
+            m_bForward = !m_bForward;
+            m_vDirection = -m_vDirection;
+            //SetNewEndPosition();
 
-			transform.position += m_vDirection * mk_fSpeed * m_fElapsedTime;
-		}
+            transform.position += m_vDirection * mk_fSpeed * m_fElapsedTime;
+
+            if (OnPositionReached != null && m_bForward)
+            {
+                OnPositionReached(m_fElapsedTime);
+            }
+
+            if (OnOtherPositionReached != null && !m_bForward)
+            {
+                OnOtherPositionReached(m_fElapsedTime);
+            }
+        }
 	}
 
 	//VARS
