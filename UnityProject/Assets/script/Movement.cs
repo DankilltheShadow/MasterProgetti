@@ -11,12 +11,7 @@ public class Movement : MonoBehaviour
     public event MovementEvent OnOtherPositionReached;
 	private void Start() 
 	{
-        m_vDirection = mk_vEndPosition - mk_vStartPosition;
-        m_fTotalTime = m_vDirection.magnitude / mk_fSpeed;
-
-        m_vDirection.Normalize();
-
-        transform.position = mk_vStartPosition;
+        SetDirection();
 	}
 	
 	private void Update()
@@ -29,13 +24,14 @@ public class Movement : MonoBehaviour
 		}
 		else
 		{
-			transform.position = (m_bForward ? mk_vEndPosition : mk_vStartPosition);
+			transform.position = (m_bForward ? _vEndPosition : _vStartPosition);
 
 			m_fElapsedTime -= m_fTotalTime;
 
-            m_bForward = !m_bForward;
-            m_vDirection = -m_vDirection;
+            //m_bForward = !m_bForward;
+            //m_vDirection = -m_vDirection;
             //SetNewEndPosition();
+            SetDirection();
 
             transform.position += m_vDirection * mk_fSpeed * m_fElapsedTime;
 
@@ -51,13 +47,29 @@ public class Movement : MonoBehaviour
         }
 	}
 
+    private void SetDirection()
+    {
+        _vStartPosition = mk_avIntermedePosition[m_iNextPoint % mk_avIntermedePosition.Length];
+        m_iNextPoint++;
+        _vEndPosition = mk_avIntermedePosition[m_iNextPoint % mk_avIntermedePosition.Length];
+
+        m_vDirection = _vEndPosition - _vStartPosition;
+        m_fTotalTime = m_vDirection.magnitude / mk_fSpeed;
+
+        m_vDirection.Normalize();
+
+        transform.position = _vStartPosition;
+    }
+
 	//VARS
 	private Vector3 m_vDirection;
     private float m_fTotalTime = 0.0f;
     private bool m_bForward = true;
     private float m_fElapsedTime = 0.0f;
+    private int m_iNextPoint = 0;
+    private Vector3 _vStartPosition;
+    private Vector3 _vEndPosition;
 
-    [SerializeField] private float 	mk_fSpeed = 10.0f;
-    [SerializeField] private Vector3 	mk_vStartPosition;
-    [SerializeField] private Vector3 	mk_vEndPosition;
+    [SerializeField] private float 	mk_fSpeed = 10.0f; 
+    [SerializeField] private Vector3[] mk_avIntermedePosition;
 }
