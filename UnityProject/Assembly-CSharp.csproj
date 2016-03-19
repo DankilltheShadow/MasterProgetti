@@ -48,8 +48,6 @@
      <Compile Include="Assets\script\Creator.cs" />
      <Compile Include="Assets\script\Movement.cs" />
      <Compile Include="Assets\script\NamingConvention.cs" />
-     <Compile Include="Assets\script\ShooterWrong.cs" />
-     <Compile Include="Assets\script\testExecutionOrder.cs" />
  <Reference Include="UnityEngine.UI">
  <HintPath>C:/Program Files/Unity/Editor/Data/UnityExtensions/Unity/GUISystem/UnityEngine.UI.dll</HintPath>
  </Reference>

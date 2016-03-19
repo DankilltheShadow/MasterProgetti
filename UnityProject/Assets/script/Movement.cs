@@ -1,75 +1,178 @@
 ﻿using UnityEngine;
+using UnityEngine.Events;
 using System;
 using System.Collections;
-using System.Collections.Generic;
 
-public class Movement : MonoBehaviour 
+using UnityEngine.Assertions;
+
+namespace MasterGD.Daniel
 {
-    public event Action<float> OnPositionReached;
+    public class Movement : MonoBehaviour
+    {
+        public event Action<float> OnPositionReached;
 
-    public delegate void MovementEvent(float fAdvencedTime);
-    public event MovementEvent OnOtherPositionReached;
-	private void Start() 
-	{
-        SetDirection();
-	}
-	
-	private void Update()
-	{
-        m_fElapsedTime += Time.deltaTime;
+        public delegate void MovementEvent(float fAdvancedTime);
+        public event MovementEvent OnOtherPositionReached;
 
-		if(m_fElapsedTime < m_fTotalTime)
-		{
-			transform.position += m_vDirection * mk_fSpeed * Time.deltaTime;
-		}
-		else
-		{
-			transform.position = (m_bForward ? _vEndPosition : _vStartPosition);
-
-			m_fElapsedTime -= m_fTotalTime;
-
-            //m_bForward = !m_bForward;
-            //m_vDirection = -m_vDirection;
-            //SetNewEndPosition();
-            SetDirection();
-
-            transform.position += m_vDirection * mk_fSpeed * m_fElapsedTime;
-
-            if (OnPositionReached != null && m_bForward)
+        #region PUBLIC
+        public void StartMovement()
+        {
+            if (!m_bMoving)
             {
-                OnPositionReached(m_fElapsedTime);
-            }
+                m_bMoving = true;
 
-            if (OnOtherPositionReached != null && !m_bForward)
-            {
-                OnOtherPositionReached(m_fElapsedTime);
+                ComputeNextPoint();
+
+                transform.position = m_vStartPosition;
             }
         }
-	}
 
-    private void SetDirection()
-    {
-        _vStartPosition = mk_avIntermedePosition[m_iNextPoint % mk_avIntermedePosition.Length];
-        m_iNextPoint++;
-        _vEndPosition = mk_avIntermedePosition[m_iNextPoint % mk_avIntermedePosition.Length];
+        #endregion
 
-        m_vDirection = _vEndPosition - _vStartPosition;
-        m_fTotalTime = m_vDirection.magnitude / mk_fSpeed;
+        #region INTERNAL
+        private void Start()
+        {
+            if (m_bAutoStart)
+            {
+                StartMovement();
+            }
+        }
 
-        m_vDirection.Normalize();
+        private void Update()
+        {
+            if (m_bMoving)
+            {
+                ExecuteMovement();
+            }
+        }
 
-        transform.position = _vStartPosition;
+        private void ExecuteMovement()
+        {
+            m_fElapsedTime += Time.deltaTime;
+
+            if (m_fElapsedTime < m_fTotalTime)
+            {
+                transform.position += m_vDirection * m_fSpeed * Time.deltaTime;
+            }
+            else
+            {
+                m_iCurrentPoint = (m_bForward ? m_iCurrentPoint + 1 : m_iCurrentPoint - 1);
+
+                transform.position = m_vEndPosition;
+
+                m_fElapsedTime -= m_fTotalTime;
+
+                if (m_bForward && m_iCurrentPoint == m_aoPoints.Length)
+                {
+                    //Move finished
+                    switch (m_eLoopType)
+                    {
+                        case eLoopType.LOOP:
+                            m_iCurrentPoint = 0;
+                            ComputeNextPoint();
+                            transform.position = m_vStartPosition;
+                            break;
+                        case eLoopType.PINGPONG:
+                            m_bForward = false;
+                            --m_iCurrentPoint;
+                            ComputeNextPoint();
+                            break;
+                        case eLoopType.NONE:
+                            m_bMoving = false;
+                            break;
+                    }
+                }
+                else if (!m_bForward && m_iCurrentPoint == 0)
+                {
+                    //Move finished - The only case that bring me here is PingPong loop back
+                    m_bForward = true;
+                    ComputeNextPoint();
+                }
+                else
+                {
+                    ComputeNextPoint();
+                    transform.position += m_vDirection * m_fSpeed * m_fElapsedTime;
+                }
+
+
+                if (m_bForward && OnPositionReached != null)
+                {
+                    OnPositionReached(m_fElapsedTime);
+                }
+                else if (!m_bForward && OnOtherPositionReached != null)
+                {
+                    OnOtherPositionReached(m_fElapsedTime);
+                }
+
+            }
+        }
+
+        private void ComputeNextPoint()
+        {
+                m_vStartPosition = m_aoPoints[m_iCurrentPoint].position;
+
+            if (m_bForward)
+            {
+                if (m_iCurrentPoint + 1 < m_aoPoints.Length)
+                {
+                    m_vEndPosition = m_aoPoints[m_iCurrentPoint + 1].position;
+                }
+            }
+            else if (m_iCurrentPoint > 0)
+            {
+                    m_vEndPosition = m_aoPoints[m_iCurrentPoint - 1].position;
+
+            }
+
+            m_vDirection = m_vEndPosition - m_vStartPosition;
+            m_fTotalTime = m_vDirection.magnitude / m_fSpeed;
+
+            m_vDirection.Normalize();
+        }
+
+        public void SetRandomPoint()
+        {
+            m_aoPoints = new Transform[2];
+            Vector3 tmpm_vStartPosition = new Vector3(UnityEngine.Random.Range(1.0f, 10.0f), UnityEngine.Random.Range(1.0f, 10.0f));
+            Vector3 tmpm_vEndPosition = new Vector3(UnityEngine.Random.Range(1.0f, 10.0f), UnityEngine.Random.Range(1.0f, 10.0f), 1.0f);
+            GameObject oCopy = new GameObject();
+            oCopy.transform.position = tmpm_vStartPosition;
+            m_aoPoints[0] = oCopy.transform;
+            GameObject oCopy2 = new GameObject();
+            oCopy2.transform.position = tmpm_vEndPosition;
+            m_aoPoints[1] = oCopy2.transform;
+            m_eLoopType = eLoopType.PINGPONG;
+            StartMovement();
+        }
+        #endregion
+
+        //VARS
+        [SerializeField]
+        private Transform[] m_aoPoints;
+        [SerializeField]
+        private eLoopType m_eLoopType;
+        [SerializeField]
+        private float m_fSpeed = 10.0f;
+        [SerializeField]
+        private bool m_bAutoStart = false;
+
+        private enum eLoopType
+        {
+            NONE = 0,
+            LOOP,
+            PINGPONG
+        }
+
+        private Vector3 m_vStartPosition;
+        private Vector3 m_vEndPosition = new Vector3(10.0f, 10.0f, 1.0f);
+
+        private Vector3 m_vDirection;
+        private float m_fElapsedTime = 0.0f;
+        private float m_fTotalTime = 0.0f;
+        private bool m_bForward = true;
+        private bool m_bMoving = false;
+
+        private int m_iCurrentPoint = 0;
+
     }
-
-	//VARS
-	private Vector3 m_vDirection;
-    private float m_fTotalTime = 0.0f;
-    private bool m_bForward = true;
-    private float m_fElapsedTime = 0.0f;
-    private int m_iNextPoint = 0;
-    private Vector3 _vStartPosition;
-    private Vector3 _vEndPosition;
-
-    [SerializeField] private float 	mk_fSpeed = 10.0f; 
-    [SerializeField] private Vector3[] mk_avIntermedePosition;
 }
