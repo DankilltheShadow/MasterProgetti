@@ -1,0 +1,17 @@
+C:\Users\vr102069\Documents\GitHub\master\MasterManagedDLL\MasterManagedDLL\bin\Debug\MasterManagedDLL.dll
+C:\Users\vr102069\Documents\GitHub\master\MasterManagedDLL\MasterManagedDLL\bin\Debug\MasterManagedDLL.pdb
+C:\Users\vr102069\Documents\GitHub\master\MasterManagedDLL\MasterManagedDLL\obj\Debug\MasterManagedDLL.csprojResolveAssemblyReference.cache
+C:\Users\vr102069\Documents\GitHub\master\MasterManagedDLL\MasterManagedDLL\obj\Debug\MasterManagedDLL.dll
+C:\Users\vr102069\Documents\GitHub\master\MasterManagedDLL\MasterManagedDLL\obj\Debug\MasterManagedDLL.pdb
+C:\Users\vr102069\Documents\GitHub\master\MasterManagedDLL\MasterManagedDLL\bin\Debug\UnityEditor.dll
+C:\Users\vr102069\Documents\GitHub\master\MasterManagedDLL\MasterManagedDLL\bin\Debug\UnityEngine.dll
+C:\Users\vr102069\Documents\GitHub\master\MasterManagedDLL\MasterManagedDLL\bin\Debug\Mono.Cecil.dll
+C:\Users\vr102069\Documents\GitHub\master\MasterManagedDLL\MasterManagedDLL\bin\Debug\Unity.SerializationLogic.dll
+C:\Users\vr102069\Documents\GitHub\master\MasterManagedDLL\MasterManagedDLL\bin\Debug\Unity.DataContract.dll
+C:\Users\vr102069\Documents\GitHub\master\MasterManagedDLL\MasterManagedDLL\bin\Debug\ICSharpCode.NRefactory.dll
+C:\Users\vr102069\Documents\GitHub\master\MasterManagedDLL\MasterManagedDLL\bin\Debug\Unity.UNetWeaver.dll
+C:\Users\vr102069\Documents\GitHub\master\MasterManagedDLL\MasterManagedDLL\bin\Debug\Unity.CecilTools.dll
+C:\Users\vr102069\Documents\GitHub\master\MasterManagedDLL\MasterManagedDLL\bin\Debug\Mono.Cecil.Pdb.dll
+C:\Users\vr102069\Documents\GitHub\master\MasterManagedDLL\MasterManagedDLL\bin\Debug\Mono.Cecil.Mdb.dll
+C:\Users\vr102069\Documents\GitHub\master\MasterManagedDLL\MasterManagedDLL\bin\Debug\UnityEditor.xml
+C:\Users\vr102069\Documents\GitHub\master\MasterManagedDLL\MasterManagedDLL\bin\Debug\UnityEngine.xml

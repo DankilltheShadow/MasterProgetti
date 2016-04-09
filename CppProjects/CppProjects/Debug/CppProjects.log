@@ -1,3 +1,4 @@
 ﻿  Main.cpp
-  CppProjects.vcxproj -> C:\Users\vr102069\Documents\GitHub\master\CppProjects\Debug\CppProjects.exe
-  CppProjects.vcxproj -> C:\Users\vr102069\Documents\GitHub\master\CppProjects\Debug\CppProjects.pdb (Partial PDB)
+c:\users\vr102069\documents\github\master\cppprojects\cppprojects\main.cpp(12): warning C4554: '>>': check operator precedence for possible error; use parentheses to clarify precedence
+c:\users\vr102069\documents\github\master\cppprojects\cppprojects\main.cpp(12): error C2296: '>>': illegal, left operand has type 'float'
+c:\users\vr102069\documents\github\master\cppprojects\cppprojects\main.cpp(14): warning C4244: 'initializing': conversion from 'float' to 'int', possible loss of data
