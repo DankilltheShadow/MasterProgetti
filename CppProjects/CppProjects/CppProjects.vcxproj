@@ -113,9 +113,13 @@
     <ClCompile Include="Main.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="allocatore.h" />
     <ClInclude Include="base.h" />
+    <ClInclude Include="binaryTree.h" />
+    <ClInclude Include="classlist.h" />
     <ClInclude Include="factory.h" />
     <ClInclude Include="fattoriale.h" />
+    <ClInclude Include="fixedArray.h" />
     <ClInclude Include="templateFactorial.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

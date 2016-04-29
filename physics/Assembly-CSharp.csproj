@@ -45,10 +45,15 @@
 	</Reference>
   </ItemGroup>
   <ItemGroup>
-     <Compile Include="Assets\Force.cs" />
-     <Compile Include="Assets\New Folder\genTower.cs" />
-     <Compile Include="Assets\New Folder\randomShapes.cs" />
-     <Compile Include="Assets\ViewContacts.cs" />
+     <Compile Include="Assets\MoveTank.cs" />
+     <Compile Include="Assets\MoveTurret.cs" />
+     <Compile Include="Assets\New Folder\Flesson\genTower.cs" />
+     <Compile Include="Assets\New Folder\Flesson\randomShapes.cs" />
+     <Compile Include="Assets\New Folder\Force.cs" />
+     <Compile Include="Assets\New Folder\ViewContacts.cs" />
+     <Compile Include="Assets\ballConrtoller.cs" />
+     <Compile Include="Assets\ddball.cs" />
+     <Compile Include="Assets\sling.cs" />
  <Reference Include="UnityEngine.UI">
  <HintPath>C:/Program Files/Unity/Editor/Data/UnityExtensions/Unity/GUISystem/UnityEngine.UI.dll</HintPath>
  </Reference>
